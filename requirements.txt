@@ -1,0 +1,7 @@
+streamlit
+requests
+pandas
+Pillow
+beautifulsoup4
+crawl4ai
+
