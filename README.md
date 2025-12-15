@@ -7,6 +7,7 @@ UI 以 **Streamlit** 提供互動式操作。
 ---
 
 ## 目錄
+
 - [專案動機](#專案動機)
 - [功能特色](#功能特色)
 - [專案目錄結構](#專案目錄結構)
@@ -59,6 +60,7 @@ UNIQLO **台灣站**的評論常常「寥寥無幾」，不夠支撐尺寸/版�
 ```
 
 建議各檔案角色（對照理解）：
+
 - `app.py`：Streamlit UI 入口（收集使用者輸入、顯示結果、呼叫後端函式）
 - `wedSearch.py`：搜尋頁處理（組搜尋 URL、渲染/解析商品清單）
 - `getComment_tw.py`：台灣站評論抓取
@@ -98,6 +100,7 @@ pip install -r requirements.txt
 本專案支援以下三個模型（你目前的三個選項）：
 
 ### 1) `gpt-oss:120b`
+
 - **定位**：最強、最穩的主力模型（偏向高品質推理與摘要）
 - **優點**：
   - 中文摘要更完整、更會抓「尺寸/版型」線索
@@ -107,6 +110,7 @@ pip install -r requirements.txt
 - **推薦用途**：最後產出、需要高品質總結與嚴謹 QA
 
 ### 2) `gpt-oss:20b`
+
 - **定位**：品質與速度的平衡款
 - **優點**：
   - 多數摘要與 QA 已足夠好
@@ -114,6 +118,7 @@ pip install -r requirements.txt
 - **推薦用途**：一般使用、日常查評論、Demo 展示（穩定 + 不太慢）
 
 ### 3) `gemma3:4b`
+
 - **定位**：輕量、快速、成本最低
 - **優點**：
   - 速度快、硬體需求低
@@ -139,6 +144,7 @@ API_KEY = os.getenv("OLLAMA_API_KEY")
 因此建議使用 `.env` 管理環境變數（**不要**把 `.env` commit 到 GitHub）。
 
 ### 1) 建立 `.env.example`（要放進 repo）
+
 ```env
 # LLM Gateway / Ollama API
 OLLAMA_BASE_URL=http://localhost:11434
@@ -147,6 +153,7 @@ OLLAMA_MODEL=gpt-oss:20b
 ```
 
 ### 2) 建立 `.env`（不要 commit）
+
 把 `.env.example` 複製成 `.env` 後填入 key：
 
 ```bash
@@ -157,6 +164,7 @@ copy .env.example .env
 ```
 
 `.env` 範例：
+
 ```env
 OLLAMA_BASE_URL=https://<YOUR_BASE>
 OLLAMA_API_KEY=<YOUR_API_KEY>
@@ -164,6 +172,7 @@ OLLAMA_MODEL=gpt-oss:20b
 ```
 
 ### 3) 在程式中載入 `.env`
+
 在 `app.py` 或你的 LLM client 檔案中加上：
 
 ```python
@@ -213,6 +222,7 @@ streamlit run app.py
 ```
 
 啟動後在瀏覽器中：
+
 1. 選擇地區（TW / JP）
 2. 輸入關鍵字（中文或日文）
 3. 選擇模型（120b / 20b / 4b）
@@ -263,38 +273,7 @@ streamlit run app.py
 本專案的核心是「**狀態機控制流程**」，而不是把流程寫在 prompt 裡。  
 LLM 只在特定狀態（摘要、QA）被呼叫，其餘流程（搜尋、渲染、解析、錯誤處理）都由程式 deterministic 決定下一步。
 
-> 以下只保留 **一張** State Diagram，用於描述整體架構與執行流程。
-
-```mermaid
-stateDiagram-v2
-  direction LR
-
-  [*] --> Home
-
-  Home: Home（輸入 keyword / 選 TW|JP / 搜尋）
-  Home --> Results: 搜尋成功\n(search_uniqlo)
-  Home --> Home: 空關鍵字 / 搜尋失敗
-
-  Results: Results（商品列表 / 選擇商品）
-  Results --> Home: 返回
-  Results --> Results: 更換選中商品
-  Results --> Detail: 分析評論\n(scrape_reviews + unify)
-
-  state Detail {
-    direction LR
-    [*] --> Fetch
-    Fetch: 抓取評論\n(TW/JP scraper)
-    Fetch --> Stats: 統計\n(age/region buckets)
-    Stats --> LLM: LLM 總結\n(generate_summaries)
-    LLM --> Interact: 互動功能\n(尺寸建議 / QA / 圖表)
-    Interact --> Interact: 再次提問/再算尺寸\n(generate_size_suggestion / generate_qa_answer)
-  }
-
-  Detail --> Results: 返回
-  Detail --> Detail: 重新抓取更多/更少評論\n(調整 scroll_count)
-```
-
----
+![alt text](state.png)
 
 ## 常見問題
 
@@ -314,4 +293,3 @@ stateDiagram-v2
 - 建議限制抓取頻率，避免對網站造成負擔
 - 僅供課程/學術用途示範
 - `.env` 請勿上傳 GitHub（務必放入 `.gitignore`）
-
