@@ -19,6 +19,18 @@
 pip install -r requirements.txt
 ```
 
+⚠️ **安裝後請務必執行以下命令下載 Playwright 瀏覽器：**
+
+```bash
+playwright install
+```
+
+這會下載 Chromium、Firefox 和 WebKit 瀏覽器。如果不執行此步驟，執行時會出現以下錯誤：
+
+```
+[ERROR] BrowserType.launch: Executable doesn't exist at ...
+```
+
 3. 環境變數
 
 ```env
