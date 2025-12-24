@@ -103,7 +103,7 @@ streamlit run app.py
 
 - `gpt-oss:120b`：最高品質，較慢，適合最終產出與嚴謹 QA。
 - `gpt-oss:20b`：品質/速度平衡，預設值。
-- `gemma3:4b`：最快、最省資源，適合快速預覽；翻譯日文時會自動使用此最快模型。
+- `gemma3:4b`：最快、最省資源，適合快速預覽；搜尋時翻譯成日文時會自動使用此最快模型。
 
 實際速度/品質取決於硬體。
 
@@ -118,21 +118,6 @@ streamlit run app.py
 
 ![state](state.png)
 
----
-
-## 評論爬蟲輸出格式（簡化）
-
-```json
-{
-  "site": "uniqlo_jp",
-  "product_url": "https://www.uniqlo.com/jp/ja/products/E464918-000/00",
-  "review_count": 120,
-  "reviews": [
-    { "title": "履き心地が良い", "content": "...", "user_info": "男性50代" }
-  ],
-  "llm": { "summary_zh": "...", "qa_zh": "..." }
-}
-```
 
 ---
 
@@ -142,6 +127,4 @@ streamlit run app.py
 - **LLM 失敗怎麼辦？** 請檢查 `OLLAMA_API_KEY` 或遠端服務狀態。
 - **網站改版抓不到？** 需更新 `wedSearch.py`、`getComment_tw.py`、`getComment_jp.py` 的 selector/解析規則。
 
----
 
-## 注意事項
