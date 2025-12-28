@@ -1,4 +1,4 @@
-# UNIQLO 評論洞察 Agent（TW/JP）
+# UNIQLO 評論分析 Agent
 
 以動態爬蟲，將 UNIQLO 台灣/日本站的評論統一格式化並用 LLM 做中文摘要與 QA。介面採用 Streamlit。
 
