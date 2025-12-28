@@ -1,16 +1,16 @@
 # UNIQLO 商品評論分析 Agent
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B)  ![Crawl4AI](https://img.shields.io/badge/Crawl4AI-Scraper-blueviolet)  ![LLM](https://img.shields.io/badge/LLM-Powered-gold)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B)  ![Crawl4AI](https://img.shields.io/badge/Crawl4AI-Scraper-blueviolet)  ![BeautifulSoup](https://img.shields.io/badge/BeautifulSoup-Parser-green)
 
 以動態爬蟲，將 UNIQLO 台灣/日本站的評論統一格式化並用 LLM 做中文摘要與 QA。介面採用 Streamlit。
 ---
 ## 專案動機
 
-在實際選購 UNIQLO 商品時，經常會想快速了解「大家對某一款商品的整體評價」。然而官方網站上的評論數量往往動輒上百則，使用者必須不斷向下滑動才能閱讀完整內容，難以迅速掌握重點，也不利於統整不同使用者的意見。
+在實際選購 UNIQLO 商品時，經常會想快速了解「大家對某一款商品的整體評價」。然而官方網站上的評論數量往往動輒上百則，使用者必須不斷向下滑動才能瀏覽完畢，非常耗時。
 
-此外，台灣地區對部分商品的評論數量相對稀少，若想獲得更全面的使用回饋，往往需要參考日本官網的評論。然而日文評論在搜尋與閱讀上對多數使用者而言具有門檻，使得跨站、跨語言的評論資訊難以有效利用。
+此外，台灣地區對部分商品的評論數量相對稀少，若想獲得更全面的使用回饋，往往需要參考日本官網的評論。然而日文評論在搜尋與閱讀上對多數台灣消費者而言仍有不小的語言障礙。
 
-因此，本專案旨在開發一套 **UNIQLO 商品評論分析 Agent**，透過動態爬蟲整合台灣與日本官網的商品評論，並利用大型語言模型（LLM）進行中文摘要與問答分析，協助使用者快速理解大量評論內容，降低資訊取得與理解的成本。
+因此，本專案旨在開發一套 **UNIQLO 商品評論分析 Agent**，透過動態爬蟲整合台灣與日本官網的商品評論，並利用大型語言模型（LLM）進行中文摘要與問答（QA），幫助使用者更有效率地取得商品評價資訊。
 
 
 ---
@@ -42,7 +42,7 @@ playwright install
 [ERROR] BrowserType.launch: Executable doesn't exist at ...
 ```
 
-3. 環境變數
+3. 環境變數設定
 
 ```env
 OLLAMA_API_KEY=your_api_key_here
@@ -51,6 +51,7 @@ OLLAMA_API_KEY=your_api_key_here
 執行應用時會自動讀取。
 
 3.1 macOS / Linux（bash / zsh）
+
 將以下內容加入 `~/.bashrc` 或 `~/.zshrc`：
 
 ```bash
@@ -75,7 +76,7 @@ setx OLLAMA_API_KEY "your_api_key_here"
 
 ⚠️ **設定後請重新開啟終端機或 VS Code 使環境變數生效。**
 
-4. 執行
+4. 執行應用
 
 ```bash
 streamlit run app.py
@@ -95,6 +96,16 @@ streamlit run app.py
 
 ---
 
+## 🔧 技術架構
+
+- **前端介面**：Streamlit
+- **網頁爬蟲**：Crawl4AI + Playwright
+- **資料解析**：BeautifulSoup4
+- **LLM 服務**：Ollama API
+- **資料處理**：Pandas
+
+---
+
 ## 專案結構
 
 ```text
@@ -110,7 +121,7 @@ streamlit run app.py
 
 ## 模型選擇建議
 
-可於程式碼中編輯選
+可於程式碼中編輯選擇，建議如下：
 
 - `gpt-oss:120b`：最高品質，較慢，適合最終產出與嚴謹 QA。
 - `gpt-oss:20b`：品質/速度平衡，預設值。
@@ -138,4 +149,8 @@ streamlit run app.py
 - **LLM 失敗怎麼辦？** 請檢查 `OLLAMA_API_KEY` 或遠端服務狀態。
 - **網站改版抓不到？** 需更新 `wedSearch.py`、`getComment_tw.py`、`getComment_jp.py` 的 selector/解析規則。
 
+---
 
+## ⚠️ 免責聲明
+
+本專案僅供學習與研究用途，請遵守 UNIQLO 網站使用條款。
