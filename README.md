@@ -1,6 +1,6 @@
 # UNIQLO 商品評論分析 Agent
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B)  ![Crawl4AI](https://img.shields.io/badge/Crawl4AI-Scraper-blueviolet)  ![BeautifulSoup](https://img.shields.io/badge/BeautifulSoup-Parser-green)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B)  ![Crawl4AI](https://img.shields.io/badge/Crawl4AI-Scraper-blueviolet) 
 
 以動態爬蟲，將 UNIQLO 台灣/日本站的評論統一格式化並用 LLM 做中文摘要與 QA。介面採用 Streamlit。
 ---
