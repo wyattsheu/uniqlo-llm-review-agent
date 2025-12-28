@@ -20,7 +20,7 @@
 1. 環境
 
 - Python 3.10+（建議虛擬環境）
-- 主要套件：`streamlit`, `requests`，以及動態爬蟲（如 crawl4ai / Playwright）
+- 主要套件：`streamlit`, `requests`，以及動態爬蟲（如 crawl4ai）
 - 已整理依賴於 `requirements.txt`（含 Streamlit、crawl4ai、BeautifulSoup、Pillow、pandas...）。
 - 瀏覽器（Streamlit 自動開啟）
 
